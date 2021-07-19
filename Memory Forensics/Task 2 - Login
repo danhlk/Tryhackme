@@ -1,0 +1,10 @@
+What is John's password?
+$ volatility -f .\Snapshot6.vmem imageinfo
+# Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP0x64, Win2008R2SP1x64_23418, Win2008R2SP1x64, Win7SP1x64_23418
+$ volatility -f .\Snapshot6.vmem --profile=Win7SP1x64 hashdump
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+John:1001:aad3b435b51404eeaad3b435b51404ee:47fbd6536d7868c873d5ea455f2fc0c9:::
+HomeGroupUser$:1002:aad3b435b51404eeaad3b435b51404ee:91c34c06b7988e216c3bfeb9530cabfb:::
+#Crack 47fbd6536d7868c873d5ea455f2fc0c9 with crackstation.net
+#Flag: charmander999
