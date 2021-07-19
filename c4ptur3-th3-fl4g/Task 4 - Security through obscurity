@@ -1,0 +1,15 @@
+File: meme.jpg
+1. Download and get 'inside' the file. What is the first filename & extension?
+#Open with hex editor and scroll down to end, we will see
+#Flag: hackerchat.png
+
+2. Get inside the archive and inspect the file carefully. Find the hidden text.
+$ binwalk --dd='.*' meme.jpg
+$ extract rar file
+$ strings hackerchat.png
+#{@84
+#2$Es
+#i2Mc
+#IEND
+#"AHH_YOU_FOUND_ME!"
+#flag: AHH_YOU_FOUND_ME!
