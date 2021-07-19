@@ -1,0 +1,18 @@
+1. Scan the machine, how many ports are open?
+nmap -A {MACHINE-IP}
+#PORT     STATE    SERVICE
+#22/tcp   open     ssh
+#80/tcp   open     http
+
+2. What version of Apache is running?
+nmap -sV -p 80 {MACHINE-IP}
+#PORT   STATE SERVICE VERSION
+#80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+
+3. What service is running on port 22?
+ssh
+4. No need answer
+
+5. What is the hidden directory?
+gobuster dir -u http://10.10.227.78/ -w /usr/share/dirb/wordlists/common.txt
+/panel (Status: 301)
