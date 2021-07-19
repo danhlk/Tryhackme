@@ -1,0 +1,42 @@
+1. can you capture the flag? (translate)
+
+2. Binary
+binarys = '01101100 01100101 01110100 01110011 00100000 01110100 01110010 01111001 00100000 01110011 01101111 01101101 01100101 00100000 01100010 01101001 01101110 01100001 01110010 01111001 00100000 01101111 01110101 01110100 00100001'.split()
+text = ''
+for binary in binarys:
+    decimal = int(binary, 2)
+    text += chr(decimal)
+print(text)
+#lets try some binary out!
+
+3. MJQXGZJTGIQGS4ZAON2XAZLSEBRW63LNN5XCA2LOEBBVIRRHOM====== (Base32)
+#base32 is super common in CTF's
+
+4. RWFjaCBCYXNlNjQgZGlnaXQgcmVwcmVzZW50cyBleGFjdGx5IDYgYml0cyBvZiBkYXRhLg== (Base64)
+#Each Base64 digit represents exactly 6 bits of data.
+
+5. 68 65 78 61 64 65 63 69 6d 61 6c 20 6f 72 20 62 61 73 65 31 36 3f (hex)
+bytes.fromhex('68 65 78 61 64 65 63 69 6d 61 6c 20 6f 72 20 62 61 73 65 31 36 3f'.replace(' ', ''))
+#hexadecimal or base16?
+
+6. Ebgngr zr 13 cynprf! (caesar cipher)
+#Rotate me 13 places!
+
+7. *@F DA:? >6 C:89E C@F?5 323J C:89E C@F?5 Wcf E:>6DX (rot47)
+#You spin me right round baby right round (47 times)
+
+8. - . .-.. . -.-. --- -- -- ..- -. .. -.-. .- - .. --- -.
+
+. -. -.-. --- -.. .. -. --. (morse code)
+#TELECOMMUNICATIONENCODING
+
+9. 85 110 112 97 99 107 32 116 104 105 115 32 66 67 68 (decimal)
+#Unpack this BCD
+
+10. Base64 => morse code -> binary -> rot47 -> decimal
+$ echo $ciphertext | base64 -d
+# output is morse code, decrypt it we wil receive binary
+# decode this we receive rot47 fe `_` ``e bh ``d ba `_h hf `_f `_` ba ``e `_c `_d ``d ba hf ba hg `_d ``e ba ``e ``c `_d hh `_f `_d `_` ``c ce ce ce
+# decode with rot47, receiving decimal list
+#flag: Let's make this a bit trickier...
+
