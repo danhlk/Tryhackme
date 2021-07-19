@@ -1,0 +1,12 @@
+File: hell.jpg
+$ binwalk.bat .\hell.jpg
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.02
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+265845        0x40E75         Zip archive data, at least v2.0 to extract, uncompressed size: 69, name: hello_there.txt
+266099        0x40F73         End of Zip archive, footer length: 22
+$ binwalk.bat --dd='.*' .\hell.jpg
+Extract zip file, open hello_there.txt
+#Flag: THM{y0u_w4lk_m3_0u7}
