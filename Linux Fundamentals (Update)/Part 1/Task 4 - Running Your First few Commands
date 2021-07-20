@@ -1,0 +1,5 @@
+1. If we wanted to output the text "TryHackMe", what would our command be?
+#Flag: echo TryHackMe
+
+2. What is the username of who you're logged in as on your deployed Linux machine?
+#Flag: tryhackme
