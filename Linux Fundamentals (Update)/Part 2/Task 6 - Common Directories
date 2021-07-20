@@ -1,0 +1,8 @@
+1. What is the directory path that would we expect logs to be stored in?
+#Flag: /var/log
+
+2. What root directory is similar to how RAM on a computer works?
+#Flag: /tmp
+
+3. Name the home directory of the root user
+#Flag: /root
