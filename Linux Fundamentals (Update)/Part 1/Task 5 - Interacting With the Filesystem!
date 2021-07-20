@@ -1,0 +1,20 @@
+1. On the Linux machine that you deploy, how many folders are there?
+tryhackme@linux1:~$ ls
+access.log  folder1  folder2  folder3  folder4
+#Flag: 4
+
+2. Which directory contains a file? 
+tryhackme@linux1:~$ ls folder4
+note.txt
+#Flag: folder4
+
+3. What is the contents of this file?
+tryhackme@linux1:~$ cat folder4/note.txt 
+Hello World!
+#Flag: Hello World!
+
+4. Use the cd command to navigate to this file and find out the new current working directory. What is the path?
+tryhackme@linux1:~$ cd folder4
+tryhackme@linux1:~/folder4$ pwd
+/home/tryhackme/folder4
+#Flag: /home/tryhackme/folder4
