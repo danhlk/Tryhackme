@@ -1,0 +1,15 @@
+1. How would you create the file named "newnote"?
+#Flag: touch newnote
+
+2. On the deployable machine, what is the file type of "unknown1" in "tryhackme's" home directory?
+tryhackme@linux2:~$ file unknown1
+unknown1: ASCII text
+#Flag: ASCII text
+
+3. How would we move the file "myfile" to the directory "myfolder"?
+#Flag: mv myfile myfolder
+
+4. What are the contents of this file?
+tryhackme@linux2:~$ cat myfile
+THM{FILESYSTEM}
+#Flag: THM{FILESYSTEM}
