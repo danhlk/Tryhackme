@@ -1,0 +1,7 @@
+1. What directional arrow key would we use to navigate down the manual page?
+#Flag: down
+
+2. What flag would we use to display the output in a "human-readable" way?
+ -h, --human-readable
+              with -l and -s, print sizes like 1K 234M 2G etc.
+#Flag: -h
