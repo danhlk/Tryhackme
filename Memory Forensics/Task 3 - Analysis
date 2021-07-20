@@ -1,0 +1,28 @@
+1. When was the machine last shutdown?
+$ volatility.exe -f .\Snapshot19.vmem --profile=Win7SP1x64 shutdowntime
+Volatility Foundation Volatility Framework 2.6
+Registry: SYSTEM
+Key Path: ControlSet001\Control\Windows
+Key Last updated: 2020-12-27 22:50:12 UTC+0000
+Value Name: ShutdownTime
+Value: 2020-12-27 22:50:12 UTC+0000
+#Flag: 2020-12-27 22:50:12
+
+2. What did John write?
+Volatility Foundation Volatility Framework 2.6
+**************************************************
+CommandProcess: conhost.exe Pid: 2488
+CommandHistory: 0x21e9c0 Application: cmd.exe Flags: Allocated, Reset
+CommandCount: 7 LastAdded: 6 LastDisplayed: 6
+FirstCommand: 0 CommandCountMax: 50
+ProcessHandle: 0x60
+Cmd #0 @ 0x1fe3a0: cd /
+Cmd #1 @ 0x1f78b0: echo THM{You_found_me} > test.txt
+Cmd #2 @ 0x21dcf0: cls
+Cmd #3 @ 0x1fe3c0: cd /Users
+Cmd #4 @ 0x1fe3e0: cd /John
+Cmd #5 @ 0x21db30: dir
+Cmd #6 @ 0x1fe400: cd John
+Cmd #15 @ 0x1e0158: "
+Cmd #16 @ 0x21db30: dir
+#Flag: You_found_me
