@@ -1,0 +1,12 @@
+1. On the deployable machine, who is the owner of "important"?
+tryhackme@linux2:~$ ls -al important
+-rw-r--r-- 1 user2 user2 14 May  5 10:30 important
+#Flag: user2
+
+2. What would the command be to switch to the user "user2"?
+#Flag: su user2
+
+4. Output the contents of "important", what is the flag?
+user2@linux2:/home/tryhackme$ cat important
+THM{SU_USER2}
+#Flag: THM{SU_USER2}
