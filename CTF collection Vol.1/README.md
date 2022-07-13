@@ -37,14 +37,14 @@ Owner Name                      : THM{3x1f_0r_3x17}
 
 ## Task 4 - Mon, are we going to be okay?
 It is sad. Feed me the flag.<br>
-Use this [link](https://futureboy.us/stegano/decinput.html), submit this file then get the result.
-![1](images/1.png)
+Use this [link](https://futureboy.us/stegano/decinput.html), submit this file then get the result.<br>
+![1](images/1.png)<br>
 **Answer:** THM{500n3r_0r_l473r_17_15_0ur_7urn}
 
 ## Task 5 - Erm......Magick
 Did you find the flag?<br>
-The flag is invisible after description line
-![2](images/2.png)
+The flag is invisible after description line.<br>
+![2](images/2.png)<br>
 **Answer:**  THM{wh173_fl46}
 
 ## Task 6 - QRrrrr
@@ -81,13 +81,13 @@ THM{17_h45_l3553r_l3773r5}
 ## Task 9 - Left or right
 What did you get? <br>
 Use this [link](https://www.dcode.fr/caesar-cipher), brute force all cases.<br>
-![3](images/3.png)
+![3](images/3.png)<br>
 **Answer:** THM{hail_the_caesar}
 
 ## Task 10 - Make a comment
 I'm hungry now... I need the flag.<br>
 Inspect into Task 10 based the title.<br>
-![4](images/4.png)
+![4](images/4.png)<br>
 **Answer:** THM{4lw4y5_ch3ck_7h3_c0m3mn7}
 
 ## Task 11 - Can you fix it?
@@ -97,32 +97,32 @@ What is the content?<br>
 $ file spoil.png 
 spoil.png: data
 ```
-Use `ghex` to edit hex string, modify hex based on [link](https://en.wikipedia.org/wiki/List_of_file_signatures)
-![5](images/5.png)
-To
-![6](images/6.png)
-We get the fixed image, open it and get the flag!
-![](images/spoil.png)
+Use `ghex` to edit hex string, modify hex based on [link](https://en.wikipedia.org/wiki/List_of_file_signatures)<br>
+![5](images/5.png)<br>
+To<br>
+![6](images/6.png)<br>
+We get the fixed image, open it and get the flag!<br>
+![](images/spoil.png)<br>
 **Answer:** THM{y35_w3_c4n}
 
 ## Task 12 - Read it
 Did you found the hidden flag?
 Search on Google with keyword "Tryhackme room Reddit", we'll see the link with image.
-![](images/7.png)
-In this link, we will see the flag below image.
-![](images/8.png)
+![](images/7.png)<br>
+In this link, we will see the flag below image.<br>
+![](images/8.png)<br>
 **Answer:** THM{50c14l_4cc0un7_15_p4r7_0f_051n7}
 
 ## Task 13 - Spin my head
 Can you decode it?
 This string is encoded with brainfuck, so decode it with [link](https://www.dcode.fr/brainfuck-language)
-![](images/9.png)
+![](images/9.png)<br>
 **Answer:** THM{0h_my_h34d}
 
 ## Task 14 - An exclusive!
 Did you crack it? Feed me now!<br>
-Based on title, we will XOR two string with [link](https://xor.pw/#)
-![](images/10.png)
+Based on title, we will XOR two string with [link](https://xor.pw/#)<br>
+![](images/10.png)<br>
 Then convert hex to string, we get the flag.
 ```sh
 $ echo 54484d7b3378636c75353176335f30727d | xxd -r -p
@@ -171,7 +171,7 @@ THM{y0u_w4lk_m3_0u7}
 ## Task 16 - Darkness
 What does the flag said?<br>
 It only a black image, so I use stegsolve to view it.<br>
-![](images/11.png)
+![](images/11.png)<br>
 **Answer:** THM{7h3r3_15_h0p3_1n_7h3_d4rkn355}
 
 ## Task 17 - A sounding QR
@@ -183,20 +183,20 @@ QR-Code:https://soundcloud.com/user-86667759/thm-ctf-vol1
 scanned 1 barcode symbols from 1 images in 0,02 seconds
 ```
 Follow this link, they give a audio with voice flag, I download it and use [https://speech-to-text-demo.ng.bluemix.net/](https://speech-to-text-demo.ng.bluemix.net/) to extract text from it.
-![](images/12.png)
+![](images/12.png)<br>
 **Answer:** THM{SOUNDINGQR}
 
 ## Task 18 - Dig up the past
-Did you found my past?
+Did you found my past?<br>
 Use [Wayback Machine](https://archive.org/web/)<br>
-Return to January 2, 2020
-![](images/13.png)
+Return to January 2, 2020<br>
+![](images/13.png)<br>
 **Answer:** THM{ch3ck_th3_h4ckb4ck}
 
 ## Task 19 - Uncrackable!
 The deciphered text.<br>
-This is Viegenere Cipher, use this [link](https://www.dcode.fr/vigenere-cipher)
-![](images/14.png)
+This is Viegenere Cipher, use this [link](https://www.dcode.fr/vigenere-cipher)<br>
+![](images/14.png)<br>
 **Answer:** TRYHACKME{YOU_FOUND_THE_KEY}
 
 ## Task 20 - Small bases
