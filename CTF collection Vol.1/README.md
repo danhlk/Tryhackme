@@ -1,4 +1,26 @@
-# Task 2  What does the base said?
+# Table of Contents
+* [Table of Contents](#table-of-contents)
+   * [Task 2 - What does the base said?](#task-2---what-does-the-base-said)
+   * [Task 3 - Meta meta](#task-3---meta-meta)
+   * [Task 4 - Mon, are we going to be okay?](#task-4---mon-are-we-going-to-be-okay)
+   * [Task 5 - Erm......Magick](#task-5---ermmagick)
+   * [Task 6 - QRrrrr](#task-6---qrrrrr)
+   * [Task 7 - Reverse it or read it?](#task-7---reverse-it-or-read-it)
+   * [Task 8 - Another decoding stuff](#task-8---another-decoding-stuff)
+   * [Task 9 - Left or right](#task-9---left-or-right)
+   * [Task 10 - Make a comment](#task-10---make-a-comment)
+   * [Task 11 - Can you fix it?](#task-11---can-you-fix-it)
+   * [Task 12 - Read it](#task-12---read-it)
+   * [Task 13 - Spin my head](#task-13---spin-my-head)
+   * [Task 14 - An exclusive!](#task-14---an-exclusive)
+   * [Task 15 - Binary walk](#task-15---binary-walk)
+   * [Task 16 - Darkness](#task-16---darkness)
+   * [Task 17 - A sounding QR](#task-17---a-sounding-qr)
+   * [Task 18 - Dig up the past](#task-18---dig-up-the-past)
+   * [Task 19 - Uncrackable!](#task-19---uncrackable)
+   * [Task 20 - Small bases](#task-20---small-bases)
+   * [Task 21 - Read the packet](#task-21---read-the-packet)
+## Task 2 - What does the base said?
 Can you decode the following?<br>
 ```sh
 $ echo -n "VEhNe2p1NTdfZDNjMGQzXzdoM19iNDUzfQ==" | base64 -d
@@ -6,26 +28,26 @@ THM{ju57_d3c0d3_7h3_b453}
 ```
 **Answer:** THM{ju57_d3c0d3_7h3_b453}
 
-# Task 3  Meta meta
+## Task 3 - Meta meta
 I'm hungry, I need the flag.
 ```sh
 $ exiftool Findme.jpg | grep THM
 Owner Name                      : THM{3x1f_0r_3x17}
 ```
 
-# Task 4  Mon, are we going to be okay?
+## Task 4 - Mon, are we going to be okay?
 It is sad. Feed me the flag.<br>
 Use this [link](https://futureboy.us/stegano/decinput.html), submit this file then get the result.
 ![1](images/1.png)
 **Answer:** THM{500n3r_0r_l473r_17_15_0ur_7urn}
 
-# Task 5  Erm......Magick
+## Task 5 - Erm......Magick
 Did you find the flag?<br>
 The flag is invisible after description line
 ![2](images/2.png)
 **Answer:**  THM{wh173_fl46}
 
-# Task 6  QRrrrr
+## Task 6 - QRrrrr
 Use zbarimg to scan this image.<br>
 ```sh
 $ zbarimg QR.png 
@@ -34,7 +56,7 @@ scanned 1 barcode symbols from 1 images in 0,03 seconds
 ```
 **Answer:** THM{qr_m4k3_l1f3_345y}
 
-# Task 7  Reverse it or read it?
+## Task 7 - Reverse it or read it?
 This file is executable file.<br>
 ```sh
 $ file hello.hello 
@@ -48,7 +70,7 @@ THM{345y_f1nd_345y_60}
 ```
 **Answer:** THM{345y_f1nd_345y_60}
 
-# Task 8  Another decoding stuff
+## Task 8 - Another decoding stuff
 Oh, Oh, Did you get it?<br>
 ```sh
 $ echo -n "3agrSy1CewF9v8ukcSkPSYm3oKUoByUpKG4L" | base58 -d
@@ -56,19 +78,19 @@ THM{17_h45_l3553r_l3773r5}
 ```
 **Answer:** THM{17_h45_l3553r_l3773r5}
 
-# Task 9  Left or right
+## Task 9 - Left or right
 What did you get? <br>
 Use this [link](https://www.dcode.fr/caesar-cipher), brute force all cases.<br>
 ![3](images/3.png)
 **Answer:** THM{hail_the_caesar}
 
-# Task 10  Make a comment
+## Task 10 - Make a comment
 I'm hungry now... I need the flag.<br>
 Inspect into Task 10 based the title.<br>
 ![4](images/4.png)
 **Answer:** THM{4lw4y5_ch3ck_7h3_c0m3mn7}
 
-# Task 11  Can you fix it?
+## Task 11 - Can you fix it?
 What is the content?<br>
 `file' cannot check file type.<br>
 ```sh
@@ -83,7 +105,7 @@ We get the fixed image, open it and get the flag!
 ![](images/spoil.png)
 **Answer:** THM{y35_w3_c4n}
 
-# Task 12  Read it
+## Task 12 - Read it
 Did you found the hidden flag?
 Search on Google with keyword "Tryhackme room Reddit", we'll see the link with image.
 ![](images/7.png)
@@ -91,13 +113,13 @@ In this link, we will see the flag below image.
 ![](images/8.png)
 **Answer:** THM{50c14l_4cc0un7_15_p4r7_0f_051n7}
 
-# Task 13  Spin my head
+## Task 13 - Spin my head
 Can you decode it?
 This string is encoded with brainfuck, so decode it with [link](https://www.dcode.fr/brainfuck-language)
 ![](images/9.png)
 **Answer:** THM{0h_my_h34d}
 
-# Task 14  An exclusive!
+## Task 14 - An exclusive!
 Did you crack it? Feed me now!<br>
 Based on title, we will XOR two string with [link](https://xor.pw/#)
 ![](images/10.png)
@@ -108,7 +130,7 @@ THM{3xclu51v3_0r}
 ```
 **Answer:** THM{3xclu51v3_0r}
 
-# Task 15  Binary walk
+## Task 15 - Binary walk
 Flag! Flag! Flag!
 Use `binwalk` tool to check hidden file(s).<br>
 ```sh
@@ -146,13 +168,13 @@ THM{y0u_w4lk_m3_0u7}
 ```
 **Answer:** THM{y0u_w4lk_m3_0u7}
 
-# Task 16  Darkness
+## Task 16 - Darkness
 What does the flag said?<br>
 It only a black image, so I use stegsolve to view it.<br>
 ![](images/11.png)
 **Answer:** THM{7h3r3_15_h0p3_1n_7h3_d4rkn355}
 
-# Task 17  A sounding QR
+## Task 17 - A sounding QR
 What does the bot said?
 Use `zbarimg` to read QR.
 ```sh
@@ -164,20 +186,20 @@ Follow this link, they give a audio with voice flag, I download it and use [http
 ![](images/12.png)
 **Answer:** THM{SOUNDINGQR}
 
-# Task 18  Dig up the past
+## Task 18 - Dig up the past
 Did you found my past?
 Use [Wayback Machine](https://archive.org/web/)<br>
 Return to January 2, 2020
 ![](images/13.png)
 **Answer:** THM{ch3ck_th3_h4ckb4ck}
 
-# Task 19  Uncrackable!
+## Task 19 - Uncrackable!
 The deciphered text.<br>
 This is Viegenere Cipher, use this [link](https://www.dcode.fr/vigenere-cipher)
 ![](images/14.png)
 **Answer:** TRYHACKME{YOU_FOUND_THE_KEY}
 
-# Task 20  Small bases
+## Task 20 - Small bases
 What is the flag?
 Convert from decimal to hex, hex to ascii.<br>
 ```sh
@@ -186,7 +208,7 @@ THM{17_ju57_4n_0rd1n4ry_b4535}
 ```
 **Answer:** THM{17_ju57_4n_0rd1n4ry_b4535}
 
-# Task 21  Read the packet
+## Task 21 - Read the packet
 Did you captured my neighbor's flag?
 In Wireshark, select File -> Export Objects -> HTTP, we found a file named flag.txt, extract it then cat the content.
 ```sh

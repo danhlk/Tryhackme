@@ -1,5 +1,0 @@
-File: spoil.png
-Correct format of PNG: 89 50 4E 47 0D 0A 1A 0A
-But in this file is: 23 33 44 5F 0D 0A 1A 0A
-Use HxD to modified these bytes
-#Flag: THM{y35_w3_c4n}
