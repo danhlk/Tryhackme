@@ -1,7 +1,0 @@
-1. 48bb6e862e54f2a795ffc4e541caed4d (md5) - easy
-2. CBFDAC6008F9CAB4083784CBD1874F76618D2A97 (sha1) - password123
-3. 1C8BFE8F801D79745C4631D09FFF36C82AA37FC4CCE4FC946683D7B336B63032 (sha256) - letmein
-4. $2y$12$Dwt1BZj6pcyc3Dy1FWZ5ieeUznr71EeNkJkUlypTsgbX1H68wsRom (bcrypt) - bleh
-$ hashcat.exe -m 3200 hash.txt /path/to/rockyou.txt
-$2y$12$Dwt1BZj6pcyc3Dy1FWZ5ieeUznr71EeNkJkUlypTsgbX1H68wsRom:bleh
-5. 279412f945939ba78ce0758d3fd83daa (md4) - Eternity22

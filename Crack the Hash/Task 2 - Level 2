@@ -1,6 +1,0 @@
-1. F09EDCB1FCEFC6DFB23DC3505A882655FF77375ED8AA2D1C13F640FCCC2D0C85 (sha256) - paule
-2. 1DFECA0C002AE40B8619ECF94819CC1B (NTML) - n63umy8lkf4i
-3. $6$aReallyHardSalt$6WKUTqzq.UQQmrm0p/T7MPpMbGNnzXPMAXi4bJMl9be.cfi3/qxIf.hsGpS41BqMhSrHVXgMpdjS6xeKZAs02. (sha512crypt) - waka99
-$ hashcat.exe -m 1800 hash.txt rockyou.txt
-4. e5d8870e5bdd26602cab8dbe07a942c8669e56d6 Salt: tryhackme (sha1($pass.$salt)) - 481616481616
-$ hashcat.exe -m 110 hash.txt rockyou.txt
