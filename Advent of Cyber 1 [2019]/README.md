@@ -404,3 +404,280 @@
     Navigate to http://10.10.122.29:999 to view website.<br>
     ![](images/27.png)<br>
     **Answer:** interesting.file
+
+## Task 13 - [Day 8] SUID Shenanigans
+1. What port is SSH running on?<br>
+    ```
+    $ nmap -sV 10.10.169.232 -p-
+    Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-22 20:28 +07
+    Stats: 0:09:57 elapsed; 0 hosts completed (1 up), 1 undergoing Connect Scan
+    Connect Scan Timing: About 63.85% done; ETC: 20:43 (0:05:39 remaining)
+    Nmap scan report for 10.10.169.232
+    Host is up (0.21s latency).
+    Not shown: 65534 closed ports
+    PORT      STATE SERVICE VERSION
+    65534/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+    Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+    Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+    Nmap done: 1 IP address (1 host up) scanned in 1060.63 seconds
+    ```
+    **Answer:** 65534
+
+1. Find and run a file as igor. Read the file /home/igor/flag1.txt<br>
+    We need to scan the whole file system to find all files with user igor and the SUID bit set.<br>
+    ```
+    $ find / -user igor -perm -4000 -exec ls -ldb {} \;
+    ```
+    ![](images/28.png)<br>
+    Navigate to `/home/igor`, find and cat flag1.txt.<br>
+    ```
+    $ cd /home/igor/ && find flag1.txt -exec cat flag1.txt \;
+    THM{d3f0708bdd9accda7f937d013eaf2cd8}
+    ```
+    **Answer:** THM{d3f0708bdd9accda7f937d013eaf2cd8}
+
+1. Find another binary file that has the SUID bit set. Using this file, can you become the root user and read the /root/flag2.txt file?<br>
+    Change command in previous question from `igor` to `root`.<br>
+    ```
+    $ find / -user root -perm -4000 -print 2>/dev/null 
+    /bin/ping
+    /bin/umount
+    /bin/ping6
+    /bin/su
+    /bin/fusermount
+    /bin/mount
+    /snap/core/7396/bin/mount
+    /snap/core/7396/bin/ping
+    /snap/core/7396/bin/ping6
+    /snap/core/7396/bin/su
+    /snap/core/7396/bin/umount
+    /snap/core/7396/usr/bin/chfn
+    /snap/core/7396/usr/bin/chsh
+    /snap/core/7396/usr/bin/gpasswd
+    /snap/core/7396/usr/bin/newgrp
+    /snap/core/7396/usr/bin/passwd
+    /snap/core/7396/usr/bin/sudo
+    /snap/core/7396/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+    /snap/core/7396/usr/lib/openssh/ssh-keysign
+    /snap/core/7396/usr/lib/snapd/snap-confine
+    /snap/core/7396/usr/sbin/pppd
+    /usr/bin/system-control
+    /usr/bin/newuidmap
+    /usr/bin/passwd
+    /usr/bin/newgrp
+    /usr/bin/sudo
+    /usr/bin/chsh
+    /usr/bin/chfn
+    /usr/bin/pkexec
+    /usr/bin/gpasswd
+    /usr/bin/newgidmap
+    /usr/lib/policykit-1/polkit-agent-helper-1
+    /usr/lib/x86_64-linux-gnu/lxc/lxc-user-nic
+    /usr/lib/dbus-1.0/dbus-daemon-launch-helper
+    /usr/lib/openssh/ssh-keysign
+    /usr/lib/snapd/snap-confine
+    /usr/lib/eject/dmcrypt-get-device
+    ```
+    I found a interesting binary file `system-control`, it's not the default binary file in Linux system, so I try to execute it.<br>
+    It requires a command as input, when I enter `id`, it tell me that binary run as `root` (id=0)<br>
+    ![](images/29.png)<br>
+    As the result, we can `cat flag2.txt` by this binary file.<br>
+    ![](images/30.png)<br>
+    **Answer:** THM{8c8211826239d849fa8d6df03749c3a2}
+
+## Task 14 - [Day 9] Requests
+1. What is the value of the flag?<br>
+    Python code for solving this task.<br>
+    ```python
+    import requests
+
+    url = 'http://10.10.169.100:3000'
+
+    flag = ''
+    value, next_path = '', ''
+
+    while value != 'end' and next_path != 'end':
+        r = requests.get('%s/%s' % (url, next_path))
+        j = r.json()
+        value, next_path = j['value'], j['next']
+        flag += value
+
+    print(flag[:-3])
+    ```
+    **Answer:** sCrIPtKiDd
+
+## Task 15 - [Day 10] Metasploit-a-ho-ho-ho
+1. Compromise the web server using Metasploit. What is flag1?<br>
+    We need to scan the target first. It opens port 22, 80 and 111. But this task require us for compromissing the web server, so we only notice port 80.<br>
+    ```
+    $ nmap 10.10.129.237
+    Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-23 10:04 +07
+    Nmap scan report for 10.10.129.237
+    Host is up (0.21s latency).
+    Not shown: 997 closed ports
+    PORT    STATE SERVICE
+    22/tcp  open  ssh
+    80/tcp  open  http
+    111/tcp open  rpcbind
+
+    Nmap done: 1 IP address (1 host up) scanned in 14.44 seconds
+    ```
+    Mavigate to web broswer, 
+    ![](images/31.png)<br>
+    Open DevTool and in Debugger tab, we knew that the target system use Strust as web application framework.<br>
+    ![](images/32.png)<br>
+    Research how to use Metasploit exploit Strust to get reverse shell.<br>
+    ![](images/33.png)<br>
+    I found a CVE has URI the same as UIR in the target.<br>
+    Research how to use it in Metasploit from this [link](https://www.rapid7.com/db/modules/exploit/multi/http/struts2_content_type_ognl/)<br>
+    Go to metasploit and `use exploit/multi/http/struts2_content_type_ognl`, then set info of the target.<br>
+    ![](images/34.png)<br>
+    You must change the PAYLOAD to `linux/x86/meterpreter/reverse_tcp`, then `run` and I receive a connect from the target.<br>
+    ![](images/35.png)<br>
+    Get into shell and get flag1.<br>
+    ![](images/36.png)<br>
+    **Answer:** THM{3ad96bb13ec963a5ca4cb99302b37e12}
+
+1. Now you've compromised the web server, get onto the main system. What is Santa's SSH password?<br>
+    List file in `/home/santa` and read it.<br>
+    ![](images/37.png)<br>
+    **Answer:** 
+
+    > Login as santa to complete following tasks because we are in docker container as described in document.  
+    ![](images/38.png)<br>
+
+1. Who is on line 148 of the naughty list?<br>
+    Specify displayed line by `sed` command.<br>
+    ```
+    [santa@ip-10-10-129-237 ~]$ cat naughty_list.txt | sed -n 148p 
+    Melisa Vanhoose
+    ```
+    **Answer:** Melisa Vanhoose
+
+1. Who is on line 52 of the nice list?<br>
+    Similar to previous task.<br>
+    ```
+    [santa@ip-10-10-129-237 ~]$ cat nice_list.txt | sed -n 52p
+    Lindsey Gaffney
+    ```
+    **Answer:** Lindsey Gaffney
+
+## Task 16 - [Day 11] Elf Applications
+1. What is the password inside the creds.txt file?<br>
+    Scan the target first for finding which services are running.<br>
+    ```
+    $ nmap 10.10.115.105
+    Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-23 16:47 +07
+    Nmap scan report for 10.10.115.105
+    Host is up (0.21s latency).
+    Not shown: 995 closed ports
+    PORT     STATE SERVICE
+    21/tcp   open  ftp
+    22/tcp   open  ssh
+    111/tcp  open  rpcbind
+    2049/tcp open  nfs
+    3306/tcp open  mysql
+
+    Nmap done: 1 IP address (1 host up) scanned in 7.01 seconds
+    ```
+    Based on the document, I'll exploit ftp service first by anonymous user.<br>
+    ![](images/39.png)<br>
+    List file and I found `file.txt`, get and then open it.<br>
+    ![](images/40.png)<br>
+    ```
+    $ cat file.txt 
+    remember to wipe mysql:
+    root
+    ff912ABD*
+    ```
+    It seem to be credential for login mysql.<br>
+    But we need to find cred.txt, I didn't file anything else at here, so I change to exploit NFS service.<br>
+    ```sh                                
+    ┌──(kali㉿kali)-[~/Desktop]
+    └─$ showmount -e 10.10.115.105
+    Export list for 10.10.115.105:
+    /opt/files *
+    ```
+    Successfully mount NFS to my host.<br>
+    ![](images/41.png)<br>
+    Read `creds.txt`<br>
+    ![](images/42.png)<br>
+    **Answer:** 
+
+1. What is the name of the file running on port 21?<br>
+    From previous exploit.<br>
+    **Answer:** file.txt
+
+1. What is the password after enumerating the database?<br>
+    Login to mysql with credential in `file.txt`.<br>
+    ![](images/43.png)<br>
+    Now, enumarate the database in the target's mysql.<br>
+    ![](images/44.png)<br>
+    **Answer:** bestpassword
+
+## Task 17 - [Day 12] Elfcryption
+1. What is the md5 hashsum of the encrypted note1 file?<br>
+    ```
+    $ md5sum note1.txt.gpg 
+    24cf615e2a4f42718f2ff36b35614f8f  note1.txt.gpg
+    ```
+
+1. Where was elf Bob told to meet Alice?<br>
+    We notice that `note.txt.gpg` end with `.gpd` extension, so we need to find secret key to decrypt it.<br>
+    I use `john` fro crack the passpharse but not found the key. The hint of this task told that the secret key is `25daysofchristmas`.<br>
+    ```
+    $ gpg -d note1.txt.gpg 
+    gpg: AES.CFB encrypted data
+    gpg: encrypted with 1 passphrase
+    I will meet you outside Santa's Grotto at 5pm!
+    ```
+    **Answer:** Santa's Grotto
+
+1. Decrypt note2 and obtain the flag!
+    From hint, the passphrase if `hello`.<br>
+    ```
+    $ openssl rsautl -decrypt -inkey private.key -in note2_encrypted.txt -out note2_encrypted
+    The command rsautl was deprecated in version 3.0. Use 'pkeyutl' instead.
+    Enter pass phrase for private.key:
+    $ cat note2_encrypted
+    THM{ed9ccb6802c5d0f905ea747a310bba23}
+    ```
+    **Answer:** THM{ed9ccb6802c5d0f905ea747a310bba23}
+
+## Task 18 - [Day 13] Accumulate
+1. A web server is running on the target. What is the hidden 
+directory which the website lives on?<br>
+    Use `dirb` command to find hidden directory.<br>
+    ![](images/45.png)<br>
+    We found a hidden directory `/retro` with status 301 (Moved Permantly).<br>
+    **Answer:** /retro
+
+1. Gain initial access and read the contents of user.txt<br>
+    Navigate to hidden directory and use Wappalyzer, I know that the target use Wordpress version 5.2.1 as web application framework and Server is IIS.<br>
+    ![](images/46.png)<br>
+    Research how to exploit the target.<br>
+    All posts are made by Wade, and in post "Ready Player One" has a comment of Wade with an interested string look like password.<br>
+    ![](images/47.png)<br>
+    Because the target running on Windows, so I use Rimmina RDP to it with credential is Wade:parzival.<br>
+    ![](images/48.png)<br>
+    And successfully login to the target. `user.txt` is on the Desktop, open then get the flag.<br>
+    ![](images/49.png)<br>
+    **Answer:** THM{HACK_PLAYER_ONE}
+
+1. [Optional] Elevate privileges and read the content of root.txt<br>
+    If we want to access Administrator folder, we must have the password.<br>
+    ![](images/50.png)<br>
+    On desktop, they give a file `hhupd`, research on Google I found this file can help us for privilege escalation.<br>
+    Follow this [video](https://www.youtube.com/watch?v=0ULr7oh6TDI), I successfully become `NT AUTHORITY\SYSTEM`
+    ![](images/51.png)<br>
+    Read root.txt<br>
+    ![](images/52.png)<br>
+    **Answer:** THM{COIN_OPERATED_EXPLOITATION}
+
+    ***Summary:***<br>
+    ![](images/53.png)<br>
+
+## Task 19 - [Day 14] Unknown Storage
+1. What is the name of the file you found?<br>
+    
