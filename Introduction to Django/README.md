@@ -45,7 +45,8 @@ Login to the system with SSH;s credential.<br>
     **Answer:** THM{DjanGO_Adm1n}
 
 1. User flag?<br>
-    From image above, I found user's SSH credential. So, use to login then cat the flag.<br>
+    From image above, I found StrangeFox's SSH credential. But its password is hash with SHA256, use [https://crackstation.net/](https://crackstation.net/) to crack this hash then use it to login and cat the flag.<br>
+    ![](images/9.png)<br>
     ![](images/7.png)<br>
     **Answer:** THM{SSH_gUy_101}
 
