@@ -1,6 +1,13 @@
 > # Snyk Open Source
 
 ## Summary
+- [Summary](#summary)
+  - [Task 3 - Understanding Open Source Security Risks](#task-3---understanding-open-source-security-risks)
+  - [Task 4 - Getting Started with Snyk Open Source](#task-4---getting-started-with-snyk-open-source)
+  - [Task 5 - Diving Deeper Into Vulnerabilities](#task-5---diving-deeper-into-vulnerabilities)
+  - [Task 6 - Remediating Vulnerabilities](#task-6---remediating-vulnerabilities)
+  - [Task 7 - Automating the Process Through CI/CD Pipelines](#task-7---automating-the-process-through-cicd-pipelines)
+  - [Task 8 - Implementing Continuous Monitoring](#task-8---implementing-continuous-monitoring)
 
 ### Task 3 - Understanding Open Source Security Risks
 1. Which JSON-formatted manifest file serves as the central hub for Node.js projects, listing metadata, scripts, and dependency declarations?<br>
@@ -60,5 +67,3 @@
     > ChatOps refers to the practice of using real-time messaging platforms, such as Slack, Microsoft Teams, or others, to facilitate collaboration, streamline workflows, and improve operational efficiencies within technical teams, including security and DevOps teams.
 
     **Answer:** ChatOps
-
-### 
